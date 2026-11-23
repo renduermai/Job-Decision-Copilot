@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "profile_version",
+    "target_roles",
+    "background",
+    "preferred_cities",
+    "priority_conditions",
+    "hard_reject_rules",
+    "rule_version"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "profile_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "background": {
+      "type": "string"
+    },
+    "resume_text": {
+      "type": "string"
+    },
+    "experience": {
+      "type": "string"
+    },
+    "expected_salary": {
+      "type": "string"
+    },
+    "preferred_cities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "priority_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "hard_reject_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "structured_condition": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "required_skill",
+                  "primary_role",
+                  "core_responsibility"
+                ]
+              },
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role_family": {
+                "type": "string",
+                "enum": [
+                  "agent_application",
+                  "agent_platform_infrastructure",
+                  "model_algorithm",
+                  "backend_engineering",
+                  "data_analytics_bi",
+                  "business_ai_automation",
+                  "mixed",
+                  "other",
+                  "unknown"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "rule_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role_preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preferred": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "soft_risk_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "description",
+          "max_score"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "max_score": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 4
+          }
+        }
+      }
+    },
+    "stress_tolerance": {
+      "type": "string",
+      "enum": [
+        "strong",
+        "average",
+        "weak",
+        "unspecified"
+      ],
+      "description": "用户主动确认的抗压偏好；未知不自动设为弱"
+    },
+    "confirmed_skills": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "用户明确确认已拥有的能力；未提供不可推断为不会"
+    },
+    "skills_confirmation_complete": {
+      "type": "boolean",
+      "description": "用户明确确认当前技能清单完整；仅为true才做静态补齐前后覆盖模拟"
+    }
+  }
+}

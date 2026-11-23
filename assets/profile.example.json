@@ -1,0 +1,33 @@
+{
+  "profile_id": "replace-with-your-profile-id",
+  "profile_version": "1.0.0",
+  "target_roles": [
+    "目标岗位方向"
+  ],
+  "background": "由 Agent 根据用户在聊天中提供的背景整理；普通用户无需手动编辑本文件。",
+  "resume_text": "",
+  "experience": "",
+  "expected_salary": "",
+  "preferred_cities": [],
+  "priority_conditions": [
+    "优先条件"
+  ],
+  "hard_reject_rules": [
+    {
+      "rule_id": "example_hard_reject",
+      "description": "明确不符合用户要求的一票否决条件；仅语义相关但没有明确证据时不得触发。"
+    }
+  ],
+  "rule_version": "user-rules-v1",
+  "role_preferences": {
+    "preferred": [
+      "明确希望从事的岗位实际工作，如 Agent 应用开发"
+    ],
+    "acceptable": [],
+    "avoid": []
+  },
+  "soft_risk_rules": [],
+  "stress_tolerance": "unspecified",
+  "confirmed_skills": [],
+  "skills_confirmation_complete": false
+}

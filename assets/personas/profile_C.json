@@ -1,0 +1,89 @@
+{
+  "profile_id": "example-brand-social-insights-lead",
+  "profile_version": "1.0.0",
+  "rule_version": "c-brand-insights-rules-v1",
+  "target_roles": [
+    "品牌策略与社媒洞察经理",
+    "消费者洞察与舆情分析",
+    "内容营销数据策略",
+    "AI赋能营销运营及增长分析"
+  ],
+  "background": "演示参考画像C：市场营销本科，4年消费品牌/广告代理公司经验，熟悉小红书、抖音、微博、电商评论与品牌舆情。擅长消费者研究、内容策略、项目复盘、社媒数据洞察、情绪分析、Excel/BI和基础Python数据清洗，能够使用Coze/Dify和通用AI工具优化营销流程。不具备Java/C++、分布式系统、LLM算法或Agent Runtime工程开发经验，也不以成为软件工程师为目标。",
+  "resume_text": "4年品牌增长和社媒洞察经验：独立负责品牌口碑监测、竞品分析、话题聚类、消费者访谈、客户策略报告；使用Python/BI和AI工具提升分析效率。",
+  "experience": "4年广告服务/消费品牌的市场策略与商业数据洞察经验，无生产级软件后端经验。",
+  "expected_salary": "上海15–35K/月，非硬性条件",
+  "preferred_cities": [
+    "上海",
+    "杭州"
+  ],
+  "priority_conditions": [
+    "优先品牌洞察、消费者研究、社媒内容及营销数据策略",
+    "优先与小红书、抖音、品牌口碑、内容策略相关的实际工作",
+    "接受AI工具/低代码/文本分析辅助，但不要求自己开发复杂Agent平台",
+    "优先业务主导、客户洞察、分析报告和跨部门沟通"
+  ],
+  "hard_reject_rules": [
+    {
+      "rule_id": "backend_primary",
+      "description": "主要职责为服务端系统开发、Java/Python生产级后端架构或分布式基础设施工程时排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "backend_engineering"
+      }
+    },
+    {
+      "rule_id": "agent_infra_primary",
+      "description": "主要职责是Agent Runtime、沙箱、工具协议、SDK和底层工程架构时排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "agent_platform_infrastructure"
+      }
+    },
+    {
+      "rule_id": "model_algorithm_primary",
+      "description": "主要职责是机器学习模型预训练、算法开发、推理加速或强化学习研究时排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "model_algorithm"
+      }
+    },
+    {
+      "rule_id": "outsourcing",
+      "description": "明确第三方驻场外包排除。"
+    }
+  ],
+  "role_preferences": {
+    "preferred": [
+      "社媒数据洞察",
+      "消费者研究",
+      "品牌策略和内容运营",
+      "AI辅助商业分析"
+    ],
+    "acceptable": [
+      "营销流程自动化",
+      "AI工具运营",
+      "社媒分析与低代码应用"
+    ],
+    "avoid": [
+      "高强度工程编程",
+      "Agent底层架构",
+      "企业级Java后端",
+      "模型算法研发"
+    ]
+  },
+  "soft_risk_rules": [
+    {
+      "rule_id": "engineering_heavy",
+      "description": "岗位要求独立开发或维护复杂生产级Agent系统，业务策略和营销洞察只是少量附属职责时最高2分。",
+      "max_score": 2
+    },
+    {
+      "rule_id": "general_ops",
+      "description": "岗位主要是纯行政运营或销售且不涉及品牌策略/数据洞察时最高3分。",
+      "max_score": 3
+    }
+  ],
+  "stress_tolerance": "unspecified",
+  "confirmed_skills": [],
+  "skills_confirmation_complete": false
+}

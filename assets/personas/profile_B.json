@@ -1,0 +1,78 @@
+{
+  "profile_id": "example-senior-agent-platform-engineer",
+  "profile_version": "1.0.0",
+  "rule_version": "b-platform-rules-v1",
+  "target_roles": [
+    "Agent Runtime工程师",
+    "Agent平台与基础设施开发",
+    "资深Agent后端或全栈工程师",
+    "生产级AI Agent系统架构"
+  ],
+  "background": "演示参考画像B：计算机本科，5年后端和分布式平台研发经验，其中2年Agent平台开发。熟练Java、Python、C++，熟悉Go，掌握Spring Boot、数据库、消息队列、Docker/Kubernetes、Agent Runtime、MCP、LangGraph和系统观测。偏好复杂平台工程，愿意承担生产级交付。",
+  "resume_text": "独立设计和上线Agent服务与平台组件，处理高并发、系统故障及可观测性建设；有Java、Python、C++工程经验。",
+  "experience": "5年后端/平台开发，2年Agent系统工程项目经验，具备独立生产交付记录。",
+  "expected_salary": "不设硬性薪资筛选条件",
+  "preferred_cities": [
+    "上海",
+    "杭州",
+    "北京"
+  ],
+  "priority_conditions": [
+    "优先Agent运行时、沙箱、工具链、MCP及分布式服务",
+    "优先高复杂度平台研发和生产级工程可靠性",
+    "优先能发挥Java、Python、C++和平台架构能力的岗位"
+  ],
+  "hard_reject_rules": [
+    {
+      "rule_id": "pure_bi",
+      "description": "以BI报表、经营数据分析为主要职责且没有实质Agent/平台工程职责时排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "data_analytics_bi"
+      }
+    },
+    {
+      "rule_id": "pure_model_research",
+      "description": "以模型预训练或算法研究为主要目标，缺少系统或Agent平台工程工作时排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "model_algorithm"
+      }
+    },
+    {
+      "rule_id": "no_engineering_business",
+      "description": "纯业务运营、营销内容或培训项目管理岗位，明确无实质软件工程职责时排除。"
+    },
+    {
+      "rule_id": "outsourcing",
+      "description": "明确第三方外包、驻场岗位排除。"
+    }
+  ],
+  "role_preferences": {
+    "preferred": [
+      "Agent Runtime",
+      "Agent框架/平台架构",
+      "资深Agent后端和分布式系统"
+    ],
+    "acceptable": [
+      "金融Agent平台开发",
+      "涉及较深工程交付的Agent业务应用"
+    ],
+    "avoid": [
+      "低代码平台操作",
+      "社媒内容运营",
+      "纯BI经营分析",
+      "无实质工程任务的项目协调"
+    ]
+  },
+  "soft_risk_rules": [
+    {
+      "rule_id": "light_tools",
+      "description": "主要使用现成低代码AI工具配置流程，缺乏架构与软件工程开发责任时，最高3分。",
+      "max_score": 3
+    }
+  ],
+  "stress_tolerance": "unspecified",
+  "confirmed_skills": [],
+  "skills_confirmation_complete": false
+}

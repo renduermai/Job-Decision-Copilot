@@ -1,0 +1,393 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "source_file",
+    "sha256",
+    "ocr_text_ref",
+    "company_name",
+    "job_title",
+    "salary_range",
+    "location",
+    "education",
+    "experience",
+    "job_details",
+    "core_skills",
+    "model_summary",
+    "inferences",
+    "unknown_fields",
+    "field_evidence",
+    "role_analysis",
+    "experience_resolution"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source_file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ocr_text_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "company_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "job_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "salary_range": {
+      "type": "string",
+      "minLength": 1
+    },
+    "location": {
+      "type": "string",
+      "minLength": 1
+    },
+    "education": {
+      "type": "string",
+      "minLength": 1
+    },
+    "experience": {
+      "type": "string",
+      "minLength": 1
+    },
+    "job_details": {
+      "type": "string",
+      "minLength": 1
+    },
+    "core_skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "model_summary": {
+      "type": "string"
+    },
+    "inferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unknown_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "field_evidence": {
+      "type": "object",
+      "required": [
+        "company_name",
+        "job_title",
+        "salary_range",
+        "location",
+        "education",
+        "experience",
+        "job_details",
+        "core_skills"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "company_name": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "job_title": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "salary_range": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "location": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "education": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "experience": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "job_details": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "core_skills": {
+          "$ref": "#/$defs/evidenceList"
+        }
+      }
+    },
+    "role_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_role_family",
+        "secondary_role_families",
+        "responsibility_evidence",
+        "skill_requirements",
+        "seniority_evidence",
+        "ambiguities",
+        "expectation_signals"
+      ],
+      "properties": {
+        "primary_role_family": {
+          "type": "string",
+          "enum": [
+            "agent_application",
+            "agent_platform_infrastructure",
+            "model_algorithm",
+            "backend_engineering",
+            "data_analytics_bi",
+            "business_ai_automation",
+            "mixed",
+            "other",
+            "unknown"
+          ]
+        },
+        "secondary_role_families": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "agent_application",
+              "agent_platform_infrastructure",
+              "model_algorithm",
+              "backend_engineering",
+              "data_analytics_bi",
+              "business_ai_automation",
+              "mixed",
+              "other",
+              "unknown"
+            ]
+          }
+        },
+        "responsibility_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role_family",
+              "importance",
+              "evidence_quote"
+            ],
+            "properties": {
+              "role_family": {
+                "type": "string",
+                "enum": [
+                  "agent_application",
+                  "agent_platform_infrastructure",
+                  "model_algorithm",
+                  "backend_engineering",
+                  "data_analytics_bi",
+                  "business_ai_automation",
+                  "mixed",
+                  "other",
+                  "unknown"
+                ]
+              },
+              "importance": {
+                "type": "string",
+                "enum": [
+                  "core",
+                  "supporting",
+                  "unclear"
+                ]
+              },
+              "evidence_quote": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "skill_requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "skill",
+              "requirement_level",
+              "evidence_quote"
+            ],
+            "properties": {
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "requirement_level": {
+                "type": "string",
+                "enum": [
+                  "required",
+                  "preferred",
+                  "alternative",
+                  "mentioned",
+                  "collaboration",
+                  "unknown"
+                ]
+              },
+              "evidence_quote": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "seniority_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "ambiguities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expectation_signals": {
+          "type": "array",
+          "description": "JD原文中反映技术深度、角色责任及薪酬/年限背景的跨章节信号；只是事实，不随画像变化",
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "section",
+              "evidence_quote"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "algorithm_depth",
+                  "engineering_depth",
+                  "ownership_depth",
+                  "strong_wording",
+                  "compensation_context",
+                  "experience_openness"
+                ]
+              },
+              "section": {
+                "type": "string",
+                "enum": [
+                  "header",
+                  "responsibility",
+                  "requirement",
+                  "bonus",
+                  "other"
+                ]
+              },
+              "item_index": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "evidence_quote": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "pressure_expectations": {
+          "type": "array",
+          "description": "仅候选人明确需要具备抗压、快速成长或陡峭学习曲线的原文；不是公司增长或工作内容泛泛描述",
+          "items": {
+            "type": "object",
+            "required": [
+              "kind",
+              "evidence_quote",
+              "applies_to_candidate"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "strong_stress",
+                  "rapid_growth",
+                  "steep_learning_curve"
+                ]
+              },
+              "evidence_quote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "applies_to_candidate": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "experience_resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "listing_experience",
+        "detail_experience",
+        "detail_requirement_level",
+        "effective_experience",
+        "conflict",
+        "listing_evidence",
+        "detail_evidence",
+        "resolution_reason"
+      ],
+      "properties": {
+        "listing_experience": {
+          "type": "string"
+        },
+        "detail_experience": {
+          "type": "string"
+        },
+        "detail_requirement_level": {
+          "type": "string",
+          "enum": [
+            "required",
+            "preferred",
+            "none",
+            "conflicting",
+            "unknown"
+          ]
+        },
+        "effective_experience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conflict": {
+          "type": "boolean"
+        },
+        "listing_evidence": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "detail_evidence": {
+          "$ref": "#/$defs/evidenceList"
+        },
+        "resolution_reason": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidenceList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

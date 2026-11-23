@@ -1,0 +1,85 @@
+{
+  "profile_id": "example-junior-python-agent-app",
+  "profile_version": "1.0.0",
+  "rule_version": "a-agent-app-rules-v1",
+  "target_roles": [
+    "Python Agent应用开发",
+    "LangGraph/RAG应用工程师",
+    "金融AI应用开发",
+    "AI应用工程化与评测"
+  ],
+  "background": "示例画像A：金融数据分析背景；具备Python、SQL、RAG、Text-to-SQL与Agent项目经验；偏好金融、电商等真实可提效场景。只是通用演示，不代表正在使用者的真实简历。",
+  "resume_text": "示例项目：Python数据处理、Text-to-SQL Agent、RAG应用探索；具体项目成果需使用者确认。",
+  "experience": "初中级背景，以用户实际提供经验年限为准；此处不是已核实的真人履历。",
+  "expected_salary": "不设硬性薪资筛选条件",
+  "preferred_cities": [
+    "上海",
+    "北京",
+    "杭州",
+    "深圳"
+  ],
+  "priority_conditions": [
+    "优先Python Agent/RAG/工具调用/评测等应用层真实开发",
+    "优先与金融、商业数据或业务问题结合的AI应用",
+    "优先工程职责真实、技术栈和现有项目可衔接、经验要求相对适配的岗位",
+    "优先能形成独立可验证项目成果的技术岗位",
+    "偏好金融、电商等Agent应用可落地真实提效场景"
+  ],
+  "hard_reject_rules": [
+    {
+      "rule_id": "required_cpp",
+      "description": "岗位把熟练C++及编写C++工程代码作为任职必备条件时排除；仅C++优先、任选语言之一、与C++团队协作不得触发。",
+      "structured_condition": {
+        "type": "required_skill",
+        "skill": "C++"
+      }
+    },
+    {
+      "rule_id": "java_primary_backend",
+      "description": "以Java/SpringBoot/SpringCloud服务端开发、传统微服务或后端维护为主要职责的岗位排除；仅提及Java、Java任选、Python/Java并行不得单独触发。"
+    },
+    {
+      "rule_id": "core_model_algorithm",
+      "description": "岗位主要职责是模型预训练、微调算法研发、强化学习算法研究、底层推理模型优化等时排除；与算法团队协作不构成排除。",
+      "structured_condition": {
+        "type": "primary_role",
+        "role_family": "model_algorithm"
+      }
+    },
+    {
+      "rule_id": "outsourcing",
+      "description": "第三方招聘外包、驻场交付或劳务派遣类岗位排除；须有明确证据。"
+    }
+  ],
+  "role_preferences": {
+    "preferred": [
+      "Python Agent应用开发",
+      "RAG与Agent评测",
+      "金融智能体应用开发"
+    ],
+    "acceptable": [
+      "偏业务的Agent真实应用交付",
+      "AI应用产品工程与业务自动化开发"
+    ],
+    "avoid": [
+      "资深Agent Runtime/分布式平台基础设施主导岗",
+      "传统BI报表与纯经营分析",
+      "以项目管理或培训为主、缺少实际工程开发的岗位"
+    ]
+  },
+  "soft_risk_rules": [
+    {
+      "rule_id": "senior_infra_gap",
+      "description": "岗位主要要求独立负责资深平台、分布式基础设施或多人团队架构，明显超出现有经验，但未触发明确硬性排除时，最高3分。",
+      "max_score": 3
+    },
+    {
+      "rule_id": "bi_primary",
+      "description": "主要工作是BI、报表、社媒数据分析或品牌经营分析而非Agent应用开发时，最高2分。",
+      "max_score": 2
+    }
+  ],
+  "stress_tolerance": "unspecified",
+  "confirmed_skills": [],
+  "skills_confirmation_complete": false
+}

@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "source_sha256",
+    "profile_id",
+    "recommendation_score",
+    "recommendation_reason",
+    "matched_points",
+    "gaps",
+    "redline_assessments",
+    "uncertainties",
+    "role_fit",
+    "soft_risk_assessments",
+    "profile_sha256",
+    "capability_fit"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommendation_score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "recommendation_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "matched_points": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidencePoint"
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidencePoint"
+      }
+    },
+    "redline_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "conclusion",
+          "evidence_quote",
+          "rationale"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conclusion": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false",
+              "unknown"
+            ]
+          },
+          "evidence_quote": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "role_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conclusion",
+        "evidence_quote",
+        "rationale"
+      ],
+      "properties": {
+        "conclusion": {
+          "type": "string",
+          "enum": [
+            "aligned",
+            "partial",
+            "mismatch",
+            "unknown"
+          ]
+        },
+        "evidence_quote": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "soft_risk_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "conclusion",
+          "evidence_quote",
+          "rationale"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conclusion": {
+            "type": "string",
+            "enum": [
+              "true",
+              "false",
+              "unknown"
+            ]
+          },
+          "evidence_quote": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "capability_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conclusion",
+        "evidence_quotes",
+        "rationale"
+      ],
+      "properties": {
+        "conclusion": {
+          "type": "string",
+          "enum": [
+            "aligned",
+            "partial",
+            "major_gap",
+            "unknown"
+          ]
+        },
+        "evidence_quotes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "pain_point_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem",
+        "jd_evidence_quotes",
+        "solution",
+        "solution_basis",
+        "candidate_evidence_quote"
+      ],
+      "properties": {
+        "problem": {
+          "type": "string"
+        },
+        "jd_evidence_quotes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "solution": {
+          "type": "string"
+        },
+        "solution_basis": {
+          "type": "string",
+          "enum": [
+            "candidate_experience",
+            "employer_expectation",
+            "unknown"
+          ]
+        },
+        "candidate_evidence_quote": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidencePoint": {
+      "type": "object",
+      "required": [
+        "point",
+        "evidence_quote"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "point": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_quote": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

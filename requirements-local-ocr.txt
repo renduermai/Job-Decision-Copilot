@@ -1,0 +1,4 @@
+# OPTIONAL: script-only offline OCR backend, separate from base Skill requirements.
+# First validate available Python / memory / download permissions in CodeArts.
+rapidocr>=3.10.0,<4
+onnxruntime>=1.18,<2

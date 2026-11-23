@@ -1,0 +1,13 @@
+{
+  "source": "boss_OCR commit 868bced，quiker_png2excel.py 与 png2excel.py 的原始分数约束：有效 hard_reject=>1；无 hard_reject 时模型1分=>2；其余2–5分保持不变。",
+  "data_classification": "TEST DATA ONLY，人工独立预期，不是运行输出",
+  "cases": [
+    {"name": "硬否决覆盖模型5分", "model_score": 5, "hard_reject": true, "expected_score": 1, "expected_hard_reject": true},
+    {"name": "硬否决覆盖模型2分", "model_score": 2, "hard_reject": true, "expected_score": 1, "expected_hard_reject": true},
+    {"name": "无硬否决模型1分修正为2", "model_score": 1, "hard_reject": false, "expected_score": 2, "expected_hard_reject": false},
+    {"name": "无硬否决模型2分保持", "model_score": 2, "hard_reject": false, "expected_score": 2, "expected_hard_reject": false},
+    {"name": "无硬否决模型3分保持", "model_score": 3, "hard_reject": false, "expected_score": 3, "expected_hard_reject": false},
+    {"name": "无硬否决模型4分保持", "model_score": 4, "hard_reject": false, "expected_score": 4, "expected_hard_reject": false},
+    {"name": "无硬否决模型5分保持", "model_score": 5, "hard_reject": false, "expected_score": 5, "expected_hard_reject": false}
+  ]
+}
