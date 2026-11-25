@@ -21,7 +21,7 @@ class CliTests(unittest.TestCase):
     def test_version(self):
         result = self.run_cli("--version")
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("1.4.7", result.stdout)
+        self.assertIn("1.4.8", result.stdout)
 
     def test_missing_required_arguments_fail(self):
         result = self.run_cli("prepare")

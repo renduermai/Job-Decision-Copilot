@@ -114,6 +114,7 @@ def create_insights(records, profile: dict[str, Any]) -> dict[str, Any]:
             "skills_confirmation_complete":complete,"confirmed_skills":sorted(confirmed),
             "baseline_covered_jobs":len(before_ids) if complete else None,
             "top5":top5, "skills":list_skills, "all_skill_demands":all_demands,
+            "all_skill_evidence":{skill:data["evidence"][:8] for skill,data in requirements.items()},
             "top10_jobs":[{"item_id":j["item_id"],"company":j["company"],
                            "title":j["title"],"score":j["score"],
                            "pain_point":j["pain_point"],"pain_solution":j["pain_solution"]} for j in jobs[:10]]}

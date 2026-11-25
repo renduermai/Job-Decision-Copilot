@@ -22,7 +22,7 @@ from PIL import Image, ImageOps
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = SKILL_ROOT / "assets" / "schemas"
-SKILL_VERSION = "1.4.7"
+SKILL_VERSION = "1.4.8"
 PROMPT_VERSION = "native-v1.4.3-with-pain-point-context"
 RULE_ENGINE_VERSION = "profile-aware-experience-and-stress-v5"
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif", ".tiff", ".tif"}
@@ -868,6 +868,10 @@ def finalize_run(run_dir, ocr_model=None, semantic_model=None, sort_mode="score"
         records.sort(key=lambda record: (-record["decision"]["recommendation_score"], record["item"].get("input_index", 0)))
     else:
         raise ValueError("--sort 只允许 input 或 score")
+    from opportunity_audit import evaluate_audit, render_audit_summary
+    audit = evaluate_audit(records, profile)
+    write_json(run_dir / "audit_report.json", audit)
+    write_text(run_dir / "audit_summary.md", render_audit_summary(audit))
     from output_naming import resolve_output_filename, prior_generated_excel
     previous_excel = prior_generated_excel(run_dir)
     excel_path = run_dir / resolve_output_filename(manifest, keyword)
@@ -875,7 +879,7 @@ def finalize_run(run_dir, ocr_model=None, semantic_model=None, sort_mode="score"
     if records:
         from excel import export_excel, validate_excel
         export_excel(excel_path, records, run_dir,
-                     fast=(manifest.get("input_mode") == "text_only" and len(records) > 800))
+                     fast=(manifest.get("input_mode") == "text_only" and len(records) > 800), audit=audit)
         # User-confirmed post-delivery columns are presentation overlays, never score changes.
         from learning_updates import replay_saved
         replay_saved(run_dir, excel_path)
@@ -900,10 +904,14 @@ def finalize_run(run_dir, ocr_model=None, semantic_model=None, sort_mode="score"
     insights = create_insights(records, profile)
     write_json(run_dir / "skill_insights.json", insights)
     from skill_insights import render_chat_report
-    write_text(run_dir / "chat_summary.md", render_chat_report(records, profile, insights))
+    write_text(run_dir / "chat_summary.md", render_chat_report(records, profile, insights)
+               + "\n" + render_audit_summary(audit)
+               + "\n**想让适合的团队看见你？可输入「让机会找到我」，我会根据高分JD和真实经历生成至多5个作品选题。**\n")
     summary = {
         "chat_summary": str(run_dir / "chat_summary.md"),
         "skill_insights": str(run_dir / "skill_insights.json"),
+        "audit_report": str(run_dir / "audit_report.json"),
+        "audit_flagged": audit["flagged_total"],
         "run_id": manifest["run_id"],
         "wall_seconds": wall_seconds,
         "skill_version": SKILL_VERSION,

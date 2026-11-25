@@ -2,13 +2,42 @@
 
 **把一堆招聘截图、CSV 或 Excel，变成一份有原文依据的投递清单。**
 
-![版本 v1.4.7](https://img.shields.io/badge/version-v1.4.7-2563eb)
+![版本 v1.4.8](https://img.shields.io/badge/version-v1.4.8-2563eb)
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776ab)
 ![输出 Excel](https://img.shields.io/badge/output-Excel-217346)
 
 [快速开始](#快速开始) · [输出示例](#输出示例) · [运行记录](#运行记录) · [详细文档](#详细文档)
 
 同样写着「Agent 工程师」，有的岗位要搭建评测体系，有的主要做 Java 后端。职涯罗盘先看岗位描述（JD）里的实际职责和硬性要求，再结合你的经历、方向、红线和抗压偏好给出 **1–5 分推荐**。打开 Excel，就能看到分数从哪来、面试前该核实什么、该优先准备哪些能力。
+
+## v1.4.8 更新（2026-11-25）
+
+- **低分岗位复核。** 筛选完成后，检查 1–3 分岗位里的经验冲突、职责歧义和待确认条件。有待复核项时，Excel 增加「低分复核」工作表，并给出 JD 证据与聊天提醒。已有运行也可通过 `audit` 命令复查。
+- **作品机会建议。** 按需运行 `showcase`，结合高分岗位的共同技能需求和个人画像，生成最多 5 个作品选题，附上岗位证据、个人证据与下一步准备建议。
+- **用户反馈与数据流转说明。** 新增三类用户反馈的处理路径，以及从反馈到功能设计的记录，便于理解复核、作品建议和职场内容更新的使用场景。
+
+使用方式见 [v1.4.8 功能指南](references/feedback-and-opportunities-v148.md)，设计背景见 [用户反馈记录](docs/USER_FEEDBACK.md)。真实误杀召回率和作品展示效果仍待用户验证。
+
+<details>
+<summary>版本演进（V1.1 → V1.4.8）</summary>
+
+```mermaid
+flowchart TD
+  A["V1.1 缓存续跑、性能与一致性"] --> B["V1.2 岗位事实与用户画像分离"]
+  B --> C["V1.3 隐性技术门槛与跨章节证据"]
+  C --> D["V3.0 年限冲突、整图优先"]
+  D --> E["V1.4.0 用户画像引导、技能覆盖"]
+  E --> F["V1.4.1–1.4.2 OCR重复调用修复、脚本OCR"]
+  F --> G["V1.4.3 卡点判断和解决思路"]
+  G --> H["V1.4.4–1.4.5 文字表格、C列评分、自动命名"]
+  H --> I["V1.4.6 2.6万条批处理、去重与完整汇总"]
+  I --> J["V1.4.7 小红书内容增量更新Excel"]
+  J --> K["V1.4.8 低分复核、作品机会、用户反馈可追踪"]
+```
+
+</details>
+
+图片在平台原生 OCR 路径下由平台模型处理。选择本地 RapidOCR 时，图像识别在当前执行环境进行。招聘原文、评分与画像保存在当前运行目录，数据留存取决于所选平台和部署配置。
 
 ## 快速开始
 
@@ -18,7 +47,7 @@
 
 ```bash
 git clone https://github.com/renduermai/Job-Decision-Copilot.git job-decision-copilot
-git -C job-decision-copilot archive --format=zip --prefix=job-decision-copilot/ --output=../job-decision-copilot-v1.4.7-install.zip HEAD
+git -C job-decision-copilot archive --format=zip --prefix=job-decision-copilot/ --output=../job-decision-copilot-v1.4.8-install.zip HEAD
 ```
 
 在码道的 Skill 导入入口上传生成的 ZIP。然后附上招聘截图、CSV 或 Excel，在对话里试一句：
@@ -86,3 +115,7 @@ Excel 保留原文、JD 全文、岗位类型、评分依据和待确认条件�
 | 版本更新了什么 | [更新日志](CHANGELOG.md) |
 
 岗位卡点是依据 JD 做出的推断，可以带到面试中核实。请把个人简历、真实画像、招聘截图和 API 密钥留在自己的工作区。
+
+## 交流反馈
+
+欢迎交流反馈，分享使用体验、问题和改进建议。邮箱 [1124742205@qq.com](mailto:1124742205@qq.com)。

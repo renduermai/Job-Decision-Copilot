@@ -93,9 +93,9 @@ def setup_book():
     return workbook
 
 
-def export_excel(output_path, records, run_dir, fast=False):
+def export_excel(output_path, records, run_dir, fast=False, audit=None):
     if fast:
-        return export_excel_fast(output_path, records, run_dir)
+        return export_excel_fast(output_path, records, run_dir, audit=audit)
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     workbook = setup_book()
@@ -155,6 +155,8 @@ def export_excel(output_path, records, run_dir, fast=False):
                 sheet.row_dimensions[row].height = min(405, max(170, image_height * .75 + 12))
             history.append([item["sha256"], neutralize_formula_text(item["source_file"]), row, datetime.now(timezone.utc).isoformat()])
         sheet.auto_filter.ref = f"A1:{get_column_letter(len(HEADERS))}{len(records) + 1}"
+        from opportunity_audit import audit_sheet
+        audit_sheet(workbook, audit)
         fd, tmp_name = tempfile.mkstemp(prefix="job_import_", suffix=".xlsx", dir=output_path.parent)
         os.close(fd)
         try:
@@ -215,7 +217,7 @@ def validate_excel(path, expected_rows, sort_mode="score", expected_images=None)
         workbook.close()
 
 
-def export_excel_fast(output_path, records, run_dir):
+def export_excel_fast(output_path, records, run_dir, audit=None):
     """Low-memory text-only large-batch export; no pictures or expensive per-cell striped fills.
 
     Uses the SAME HEADERS and column construction as normal export (not a score change).
@@ -258,6 +260,8 @@ def export_excel_fast(output_path, records, run_dir):
         assert len(values)==len(HEADERS)
         sheet.append([neutralize_formula_text(v) for v in values])
         history.append([item["sha256"], neutralize_formula_text(item["source_file"]),row,datetime.now(timezone.utc).isoformat()])
+    from opportunity_audit import audit_sheet
+    audit_sheet(book, audit)
     fd,tmp=tempfile.mkstemp(prefix="job_stream_",suffix=".xlsx",dir=output_path.parent)
     os.close(fd)
     try:

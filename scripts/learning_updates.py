@@ -67,6 +67,13 @@ def _headers(ws):
 
 
 def _topic(text):
+    # Feedback need not imply another Excel column; prefer existing audit/showcase workflows.
+    if any(k in text for k in ("自动化是好，风险也大", "AI误杀", "岗位误杀", "AI筛错", "漏掉好岗位", "错过好岗位")):
+        return "低分岗位复核", "audit_request"
+    if any(k in text for k in ("让老板找上门", "让机会找到我", "发表自己的想法", "展示个人作品", "公开展示能力")):
+        return "个人作品机会", "showcase_request"
+    if any(k in text for k in ("卖信息", "出售信息", "用户隐私", "收集简历", "数据出售")):
+        return "数据处理透明度", "transparency_question"
     if any(k in text for k in ("反向提问", "反问HR", "面试时反问", "面试问HR", "问HR", "岗位挂了多久")):
         return "面试反向提问", "interview_questions"
     if any(k in text for k in ("薪资构成", "奖金比例", "谈薪", "社保基数")):
@@ -131,6 +138,16 @@ def preview(run_dir, text_file, column=None, min_score=4, limit=10, creator=""):
     if not raw.strip():
         raise ValueError("用户提供的职场内容为空")
     topic, kind = _topic(raw)
+    # These comments are feedback on the product, not automatically job-specific new data.
+    # Do not create spurious Excel columns or silently initiate a full re-rating.
+    if not column and kind in {"audit_request", "showcase_request", "transparency_question"}:
+        actions={"audit_request":"audit", "showcase_request":"showcase", "transparency_question":"read_privacy"}
+        action=actions[kind]
+        return {"status":"action_suggested", "topic":topic, "suggested_action":action,
+                "requires_new_column_confirmation":False, "excel_unchanged":True,
+                "next":("征求用户是否查看低分复核结果；运行 audit，不改变评分" if action=="audit" else
+                        "征求用户是否生成个人作品机会；运行 showcase，不修改原Excel" if action=="showcase" else
+                        "解释README中的数据处理流程、运行时保存位置与实际平台权限；不做无法证实的隐私承诺")}
     preferred = (column or topic).strip()
     # Resolve known synonymous output-column labels before checking for an existing column.
     preferred = next((canonical for canonical, aliases in COLUMN_ALIASES.items()

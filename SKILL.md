@@ -5,7 +5,7 @@ description: |
   用户上传招聘数据、请求岗位筛选/求职准备，或在筛选完成后粘贴新的职场分析、视频逐字稿、面试技巧时触发。
 ---
 
-# 职涯罗盘 · Job Decision Copilot V1.4.7
+# 职涯罗盘 · Job Decision Copilot V1.4.8
 
 **刷岗时帮你少看垃圾岗位，投递前帮你把时间只花在最可能改变结果的地方。**
 
@@ -13,6 +13,8 @@ description: |
 
 - **找对岗位**：招聘截图、CSV、Excel（含图/无图）→ 原始JD证据 → 隐性门槛、硬红线、1–5分匹配度。
 - **找准准备重点**：高分岗位Top10、招聘方可能面对的工作卡点及对应解法、前5项值得准备的能力、技能覆盖模拟。
+- **可信可复核**：原有评分结束后，低分岗位触发JD证据冲突、职责歧义或待确认条件时输出独立「低分复核」表；硬红线仍保持原分，不悄悄改分。
+- **让机会找到我（可选）**：根据高分JD共同技能和当前真实经历推荐至多5个值得公开展示的作品选题，不自动发布、不编造项目成果。
 - **越用越有用**：筛选结束后，用户粘贴小红书点点逐字稿/总结或其它职场好文，结合**当前用户画像＋已筛选的JD＋新增内容**，为已交付的Excel补充有用建议；不重新识图、不重新打分。
 
 ## 使用流程（Agent必须完成）
@@ -29,9 +31,16 @@ description: |
 - **大批量文本**：500条以上先 `calibrate` 分层抽样核对高分分布和红线，再 `prepare` 同批去重 → 生成JD及assessment → `ingest --dry-run` 预检 → `ingest` → 一次 `finalize`。已评分19份可 `merge`，一批多源可 `split --with-merge`。详见 `references/bulk-workflow-v146.md`。
 - **常规步骤**：`prepare --input <图片或文档> --profile <画像> --output <run目录>` → `status` → OCR（仅真图片）/JD/assessment → `ingest` → `finalize --sort input --include-duplicates` → `check`。
 - **评分不变**：先看JD原始职责与必需技能，再按当前画像做硬红线、软降档、抗压调整和证据核验；**JD正文明确经验要求优先于筛选栏**。不以公司名、薪资或关键词直接决定评分。详见 `references/role-facts-and-profile-policy.md`。
-- **交付**：`AI岗位筛选_[关键词].xlsx`（C列推荐等级、冻结前三列；保留 JD全文、卡点判断、卡点如何解决），再将 `chat_summary.md` 的Top10、能力需求、覆盖模拟与三段式建议直接发在聊天中。只交付Excel，不把内部JSON/日志当用户附件。
+- **交付**：`AI岗位筛选_[关键词].xlsx`（C列推荐等级、冻结前三列；保留 JD全文、卡点判断、卡点如何解决；若发现存疑低分岗，另含「低分复核」工作表），再将 `chat_summary.md` 的Top10、能力需求、覆盖模拟与三段式建议直接发在聊天中。只交付Excel，不把内部JSON/日志当用户附件。
 
-### 交付后：用职场好文继续优化这份表（V1.4.7 新增）
+### 评分后新增：可核查与可展示（V1.4.8）
+
+- **低分复核默认运行**：`finalize` 会读取已经校验的 JD 与评分结果，生成 `audit_report.json`、`audit_summary.md`；发现有疑点的1–3分岗位时，随同一次Excel写出「低分复核」工作表（不重算评分）。聊天最终摘要直接显示主要待核实项，硬红线有证据时保持1分。已有运行可用 `audit --run-dir <目录> [--update-excel]` 重查。
+- **公开作品机会须用户触发**：交付后问用户是否想让岗位方看见自己；用户明确要求“让机会找到我”时执行 `showcase --run-dir <目录>`，将 `showcase_report.md` 的至多5个选题在聊天中展示。引用本批高分JD的原文技能证据和用户画像中的真实项目/技能；未验证的能力只能标为待核实，不能编造招聘结果。
+- **三条评论后的反馈路由**：用户粘贴“自动化有风险”类反馈时可以建议查看 `audit`；“让老板找上门”类反馈建议 `showcase`；“卖信息”类反馈应解释README的数据处理方式，不把反馈硬塞成新的Excel列。旧版 `learn-preview/learn-apply` 增量写回流程保持原样。
+- **演进与评委复核**：欢迎页只说一句反馈驱动；README有版本演进图；`docs/USER_FEEDBACK.md` 记录评论原话→需求假设→实际功能→验证结果。详细规则见 `references/feedback-and-opportunities-v148.md`。
+
+### 交付后：用职场好文继续优化这份表（V1.4.7 保留）
 
 **每次首次交付Excel后，在聊天末尾加粗展示：**
 
@@ -55,6 +64,7 @@ description: |
 
 | 资料 | 用途 |
 |---|---|
+| `docs/USER_FEEDBACK.md`、`references/feedback-and-opportunities-v148.md` | 真实用户评论、审计与作品机会的触发/证据界限 |
 | `references/learning-from-content.md` | 增量职场内容：先查列、确认新列、写回、来源证据及安全边界 |
 | `references/onboarding.md`、`assets/personas/` | 首屏、三套对照画像 |
 | `references/native-workflow.md` | JSON Schema、OCR→JD→评估、一次性调用与中断续跑 |

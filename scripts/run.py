@@ -46,6 +46,15 @@ def build_parser():
     preview = commands.add_parser("profile-preview", help="展示已从用户文字识别的画像选项及待补充字段")
     preview.add_argument("--file", required=True, help="Agent从用户文字提取的画像草稿JSON，可不完整")
 
+    audit = commands.add_parser("audit", help="读取已完成评分结果，重新生成低分岗位风险审计，不修改评分")
+    audit.add_argument("--run-dir", required=True)
+    audit.add_argument("--limit", type=int, default=100, help="最多展示的需复核岗位数")
+    audit.add_argument("--update-excel", action="store_true", help="将复核工作表写回原Excel；不修改岗位汇总表")
+
+    showcase = commands.add_parser("showcase", help="从已有高分JD和画像生成最多5个可公开展示的作品机会")
+    showcase.add_argument("--run-dir", required=True)
+    showcase.add_argument("--limit", type=int, default=5)
+
     learn_preview = commands.add_parser("learn-preview", help="交付后读取职场博主内容，检测现有Excel列并预览高分岗位的更新建议")
     learn_preview.add_argument("--run-dir", required=True)
     learn_preview.add_argument("--text-file", required=True, help="用户提供的小红书点点总结、逐字稿或职场内容文本")
@@ -155,6 +164,14 @@ def main(argv=None):
     try:
         if args.command == "welcome":
             print(onboarding_welcome())
+            return 0
+        if args.command == "audit":
+            from opportunity_audit import audit_run
+            print(json.dumps(audit_run(args.run_dir,args.limit,args.update_excel),ensure_ascii=False,indent=2))
+            return 0
+        if args.command == "showcase":
+            from showcase import showcase_run
+            print(json.dumps(showcase_run(args.run_dir,args.limit),ensure_ascii=False,indent=2))
             return 0
         if args.command == "profile-preview":
             print(profile_preview(read_json(args.file)))
